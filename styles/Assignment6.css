@@ -1,0 +1,41 @@
+p {
+    font-family: "Times New Roman", Times, serif;
+}
+
+.sectionLeft {    
+    background-color: #FBEFFB;
+    color: #FF6633;            
+    padding: 5px;
+    display: inline;    
+    position:absolute;
+    top: 60px;
+    left: 0;
+    width: 600px;
+}
+.sectionMid {    
+    background-color: #E0F2F7;    
+    padding: 5px;
+    display: inline;
+    position:absolute;
+    top: 60px;
+    left: 0;
+    width: 600px;
+}
+.sectionRight {    
+    background-color: #A9F5D0;
+    color: #FF6633;            
+    padding: 5px;
+    display: inline;
+    position:absolute;
+    top: 60px;
+    left: 0;
+    width: 600px;
+}
+
+div {  
+    width: 600px;
+}
+
+section {
+    width: 600px;
+}

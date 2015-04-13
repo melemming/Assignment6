@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Apoorva Patel - Assignment 6</title>    
+    <link rel="stylesheet" type="text/css" href="styles/Assignment6.css">
+    <script src="js/Assignment6.js" type="text/javascript"></script>    
+</head>
+
+<body>    
+    <section id="inputSel">
+        <select id="sectionMenu" onchange="showSection()">
+            <option value="SectionZero"></option>
+            <option value="sectionOne">List All Customers</option>
+            <option value="sectionTwo">List Order History</option>
+            <option value="sectionThree">List Orders</option>
+        </select>
+        &nbsp;&nbsp;&nbsp;
+        Customer ID:
+        <input type="text" id="customerIDIn">
+        <input type="submit" value="Submit" onclick=loadCustomerDetails('')>
+    </section>
+    <section>
+        <section id="sectionOne" class="sectionLeft">        
+        </section>
+        <section id="sectionTwo" class="sectionMid">      
+        </section>
+        <section id="sectionThree" class="sectionRight">      
+        </section>
+    </section>
+</body>
+</html>
