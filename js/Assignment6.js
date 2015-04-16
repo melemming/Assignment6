@@ -8,7 +8,7 @@ function createCustomer()
     var customerCity = document.getElementById("customerCity").value;
     
     //Create the parameter string
-    var newCustomer = '{"CustomerID":"' + customerID + '","CompanyName":"' + customerName + '","City":"' + customerCity +'"}';    
+    var newCustomer = '{"CustomerID":"' + customerID.toUpperCase() + '","CompanyName":"' + customerName + '","City":"' + customerCity +'"}';    
     try
     {
 	//Checking for AJAx operation return
@@ -148,13 +148,13 @@ function loadCustomerDetails(cid)
 function deleteCustomer()
 {    
     var customerID= document.getElementById("customerIDToDelete").value;
-    var resp = confirm("Are you sure you want to delete customer: " + customerID);
+    var resp = confirm("Are you sure you want to delete customer: " + customerID.toUpperCase());
     if(resp==false)
     {
 	return false;
     }
     var objRequest = new XMLHttpRequest(); //Create AJAX request object
-    var url = "http://bus-pluto.ad.uab.edu/jsonwebservice/service1.svc/deleteCustomer/" + customerID;
+    var url = "http://bus-pluto.ad.uab.edu/jsonwebservice/service1.svc/deleteCustomer/" + customerID.toUpperCase();
     objRequest.onreadystatechange = function()
     {
         if (objRequest.readyState == 4 && objRequest.status == 200)
