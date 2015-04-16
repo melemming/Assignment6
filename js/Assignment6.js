@@ -1,26 +1,109 @@
-function getAllCustomers()
+function createCustomer()
 {
-    var objRequest = new XMLHttpRequest(); //Create AJAX request object
-
-    //Create URL and Query string
-    var url = "http://bus-pluto.ad.uab.edu/jsonwebservice/service1.svc/getAllCustomers";
-    //url += document.getElementById("custid").value;
-
-    //Checks that the object has returned data
-    objRequest.onreadystatechange = function()
+    var objRequest = new XMLHttpRequest();
+    var url = "http://bus-pluto.ad.uab.edu/jsonwebservice/service1.svc/CreateCustomer";
+    //Collect Customer data from web page
+    var customerID= document.getElementById("customerID").value;
+    var customerName = document.getElementById("customerName").value;
+    var customerCity = document.getElementById("customerCity").value;
+    
+    //Create the parameter string
+    var newCustomer = '{"CustomerID":"' + customerID + '","CompanyName":"' + customerName + '","City":"' + customerCity +'"}';    
+    try
     {
-	if (objRequest.readyState == 4 && objRequest.status == 200)
+	//Checking for AJAx operation return
+	objRequest.onreadystatechange = function()
 	{
-	    var output = JSON.parse(objRequest.responseText);
-	    GenerateOutput(output);
+	   if (objRequest.readyState == 4 && objRequest.status == 200)
+	    {
+		var result = JSON.parse(objRequest.responseText);
+		operationCustomerUpdate(result);
+	    }
 	}
+    
+	
+	//Start AJAX request
+	objRequest.open("POST", url, true);
+	objRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	objRequest.send(newCustomer);	
     }
-
-    //Initiate the server request
-    objRequest.open("GET", url, true);
-    objRequest.send();
+    catch(err)
+    {
+	alert(err.message);
+    }
     
     return false;
+}
+
+function operationCustomerUpdate(output)
+{
+    if (output.WasSuccessful == 1)
+    {
+	alert('The operation was successful!');        
+    }
+    else
+    {	
+        alert("The operation was not successful!" + "\r\n" + output.Exception);
+    }
+}
+
+function updateShippingAddress()
+{    
+    var objRequest = new XMLHttpRequest();
+    var url = "http://bus-pluto.ad.uab.edu/jsonwebservice/service1.svc/updateOrderAddress";
+    //Collect Customer data from web page
+    var orderID= document.getElementById("orderID").value;
+    var shipAddress = document.getElementById("shipAddress").value;
+    var shipCity = document.getElementById("shipCity").value;
+    var shipName = document.getElementById("shipName").value;
+    var shipPostcode = document.getElementById("shipPostcode").value;
+    
+    //Create the parameter string
+    var newCustomer = '{"OrderID":"' + orderID +
+			'","ShipAddress":"' + shipAddress +			
+			'","ShipCity":"' + shipCity +
+			'","ShipName":"' + shipName +
+			'","ShipPostcode":"' + shipPostcode +'"}';
+
+    //Checking for AJAx operation return
+    objRequest.onreadystatechange = function()
+    {
+        if (objRequest.readyState == 4 && objRequest.status == 200)
+	{
+	    //alert(http.responseText);
+	    var result = JSON.parse(objRequest.responseText);
+	    OperationResultUpdate(result);
+	}
+    }
+    
+    //Start AJAX request
+    objRequest.open("POST", url, true);
+    objRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    objRequest.send(newCustomer);
+    
+    return false;
+}
+
+function OperationResultUpdate(output)
+{
+    var msg = "";
+    
+    switch(output) {
+    case 1:
+        msg = 'Operation completed successfully.';
+        break;
+    case 0:
+        msg = 'Operation failed with an unspecified error.';
+        break;
+    case -2:
+        msg = 'Operation failed because the data string supplied could not be deserialized into the service object.';
+        break;
+    case -3:
+        msg = 'Operation failed because a record with the supplied Order ID could not be found.';
+        break;
+    }
+    
+    alert(msg);	    
 }
 
 function GenerateOutput(result)
@@ -62,41 +145,42 @@ function loadCustomerDetails(cid)
     loadCustomerOrderHistory(cid);    
 }
 
-function loadCustomerOrderHistory(cid)
-{        
+function deleteCustomer()
+{    
+    var customerID= document.getElementById("customerIDToDelete").value;
+    var resp = confirm("Are you sure you want to delete customer: " + customerID);
+    if(resp==false)
+    {
+	return false;
+    }
     var objRequest = new XMLHttpRequest(); //Create AJAX request object
-    var url = "http://bus-pluto.ad.uab.edu/jsonwebservice/service1.svc/getCustomerOrderHistory/" + cid;
+    var url = "http://bus-pluto.ad.uab.edu/jsonwebservice/service1.svc/deleteCustomer/" + customerID;
     objRequest.onreadystatechange = function()
     {
         if (objRequest.readyState == 4 && objRequest.status == 200)
 	{
 	    var output = JSON.parse(objRequest.responseText);
-	    outputCustomerOrderHistory(output);
+	    outputDeleteCustomer(output);	    
 	}
     }
     
     //Initiate the server request
     objRequest.open("GET", url, true);
     objRequest.send();
+    
+    return false;
 }
 
-function outputCustomerOrderHistory(result)
+function outputDeleteCustomer(output)
 {
-    var count = 0;
-    var displaytext = "";
-    
-    displaytext = "<table border='1'><tr><th>Product Name</th><th>Quantity Ordered</th></tr>";
-    
-    //Loop to extract data from the response object
-    for (count = 0; count < result.length; count++)
-    {
-	displaytext += "<tr><td>" + result[count].ProductName + "</td>" +
-	    "<td>" + result[count].Total + "</td></tr>";				
+    if (output.DeleteCustomerResult.WasSuccessful == 1)
+    {	
+	alert('The operation was successful!');
     }
-    
-    displaytext = displaytext +  "</table>";
-    
-    document.getElementById("sectionThree").innerHTML = displaytext;
+    else
+    {	
+        alert("The operation failed." + "\r\n" + output.DeleteCustomerResult.Exception);
+    }
 }
 
 
@@ -156,8 +240,7 @@ function showSection()
     {
 	section2.style.visibility='hidden';
 	section3.style.visibility='hidden';
-        section1.style.visibility='visible';
-	getAllCustomers();
+        section1.style.visibility='visible';	
     }
     else if(selection.value == 'sectionTwo')
     {

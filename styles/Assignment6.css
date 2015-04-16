@@ -39,3 +39,7 @@ div {
 section {
     width: 600px;
 }
+
+input.customerID {
+  text-transform: uppercase;
+}

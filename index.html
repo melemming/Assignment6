@@ -11,22 +11,36 @@
     <section id="inputSel">
         <select id="sectionMenu" onchange="showSection()">
             <option value="SectionZero"></option>
-            <option value="sectionOne">List All Customers</option>
-            <option value="sectionTwo">List Order History</option>
-            <option value="sectionThree">List Orders</option>
+            <option value="sectionOne">Create Customer</option>
+            <option value="sectionTwo">Change Shipping Address</option>
+            <option value="sectionThree">Delete Customer</option>
         </select>
-        &nbsp;&nbsp;&nbsp;
-        Customer ID:
-        <input type="text" id="customerIDIn">
-        <input type="submit" value="Submit" onclick=loadCustomerDetails('')>
     </section>
     <section>
-        <section id="sectionOne" class="sectionLeft">        
+        <section id="sectionOne" class="sectionLeft" style="visibility: hidden;">
+            <table>
+                <tr><td>Customer ID</td><td><input type="text" id="customerID" class="customerID"  maxlength="5"  minlength="5"/></td></tr>
+                <tr><td>Customer Name</td><td><input type="text" id="customerName" /></td></tr>
+                <tr><td>Customer City</td><td><input type="text" id="customerCity" /></td></tr>
+                <tr><td>&nbsp;</td><td><input type="submit" value="Save Customer" onclick="createCustomer()"/></td></tr>                                    
+            </table>
         </section>
-        <section id="sectionTwo" class="sectionMid">      
+        <section id="sectionTwo" class="sectionMid" style="visibility: hidden;">
+            <table>
+                <tr><td>Order ID</td><td><input type="text" id="orderID"/></td></tr>
+                <tr><td>Address</td><td><input type="text" id="shipAddress" /></td></tr>
+                <tr><td>City</td><td><input type="text" id="shipCity" /></td></tr>
+                <tr><td>Name</td><td><input type="text" id="shipName" /></td></tr>
+                <tr><td>Postcode</td><td><input type="text" id="shipPostcode" /></td></tr>
+                <tr><td>&nbsp;</td><td><input type="submit" value="Update Shipping Address" onclick="updateShippingAddress()"/></td></tr>            
+            </table>
         </section>
-        <section id="sectionThree" class="sectionRight">      
+        <section id="sectionThree" class="sectionRight" style="visibility: hidden;">
+            <table>
+                <tr><td>Customer ID</td><td><input type="text" id="customerIDToDelete" class="customerID"  maxlength="5"  minlength="5"/></td></tr>
+                <tr><td>&nbsp;</td><td><input type="submit" value="Delete Customer" onclick="deleteCustomer()"/></td></tr>
+            </table>                        
         </section>
-    </section>
+    </section>    
 </body>
 </html>
